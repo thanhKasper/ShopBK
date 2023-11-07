@@ -10,26 +10,55 @@
 </head>
 
 <body>
+    <?php $page = $_GET['page'] ?? null; ?>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid mx-3">
-            <a class="navbar-brand text-white fw-bold" href="http://localhost/index.php?page=home">ShopBK</a>
+            <a class="navbar-brand text-white fw-bold fs-2" href="http://localhost/index.php?page=home">ShopBK</a>
             <button class="navbar-toggler shawdow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="http://localhost/index.php?page=home">Home</a>
+                <?php
+                if ($page == 'home') {
+                    echo '
+                    <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=home">Home</a>
                     <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
                     <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
                     <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
-                </div>
+                    </div>';
+                } else if ($page == 'products') {
+                    echo '
+                    <div class="navbar-nav">
+                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
+                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=products">Products</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
+                    </div>';
+                } else if ($page == 'login') {
+                    echo '
+                    <div class="navbar-nav">
+                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
+                    <a class="nav-link" aria-current="page" href="http://localhost/index.php?page=products">Products</a>
+                    <a class="nav-link active" href="http://localhost/index.php?page=login">Login</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
+                    </div>';
+                } else if ($page == 'register') {
+                    echo '
+                    <div class="navbar-nav">
+                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
+                    <a class="nav-link active" href="http://localhost/index.php?page=register">Register</a>
+                    </div>';
+                }
+                ?>
+                
             </div>
         </div>
     </nav>
 
     <?php
-    $page = $_GET['page'] ?? null;
-
     switch ($page) {
         case "home":
             include "./home.php";
