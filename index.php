@@ -19,15 +19,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                 <?php
-                if ($page == 'home') {
-                    echo '
-                    <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=home">Home</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
-                    </div>';
-                } else if ($page == 'products') {
+                if ($page == 'products') {
                     echo '
                     <div class="navbar-nav">
                     <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
@@ -52,6 +44,15 @@
                     <a class="nav-link active" href="http://localhost/index.php?page=register">Register</a>
                     </div>';
                 }
+                else {
+                    echo '
+                    <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=home">Home</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
+                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
+                    </div>';
+                } 
                 ?>
                 
             </div>
