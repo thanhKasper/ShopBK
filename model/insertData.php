@@ -20,16 +20,28 @@ values (2, 'Laptop Gaming HP Omen 16 b0127TX 4Y0W7PA', 46000000,
 '/images/hpOmen.jpg')";
 
 
-if ($conn->query($insertIphone) === TRUE) {
-    echo "Inserted iphone to Products Table.\n";
-} else {
-    echo $conn->error;
-}
+// if ($conn->query($insertIphone) === TRUE) {
+//     echo "Inserted iphone to Products Table.\n";
+// } else {
+//     echo $conn->error;
+// }
 
-if ($conn->query($laptopInsert) === TRUE) {
-    echo "Inserted laptop to Products Table.\n";
-} else {
-    echo $conn->error;
+// if ($conn->query($laptopInsert) === TRUE) {
+//     echo "Inserted laptop to Products Table.\n";
+// } else {
+//     echo $conn->error;
+// }
+
+$queryProducts = "INSERT INTO Products
+VALUES (3, 'Samsung Galaxy A05 128GB', 3090000, 3.8, 'Tận hưởng những công nghệ mới ở tầm giá phải chăng cùng Galaxy A05. Từ diện mạo trẻ trung, năng động đến màn hình rộng lớn 6.7 inch, bộ đôi camera 50MP sắc nét',
+'/images/ss-galaxy-a05.jpeg');";
+
+$queryProducts .= "INSERT INTO Products
+VALUES (4, 'Xmobile PowerBox P69D', 550000, 4.2, 'Thiết kế đơn giản, màu đen thời thượng, phong cách',
+'/images/sac_du_phong.jpg');";
+
+if ($conn->multi_query($queryProducts) === TRUE) {
+    echo "Insert two more products";
 }
 
 $userEmail = 'myemail@mail.com';
@@ -39,9 +51,8 @@ $hashPass = hash("sha256", $userPassword);
 
 $sql = "insert into Users
 values(1, '" . $userName . "', '" . $userEmail . "', '" . $hashPass . "')";
-if ($conn->query($sql) === TRUE) {
-    echo "Successfully add user info";
-} else {
-    echo $conn->error;
-}
-?>
+// if ($conn->query($sql) === TRUE) {
+//     echo "Successfully add user info";
+// } else {
+//     echo $conn->error;
+// }
