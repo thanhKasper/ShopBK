@@ -42,5 +42,13 @@ if ($conn->query($createUser) === TRUE) {
     echo $conn->error;
 }
 
+// Add privilege_level attribute to Users table
+// level 1: admin
+// Level 2: user
+$setAttr = "ALTER TABLE Users ADD privilege_level INT;";
+$conn->query(($setAttr));
 
+// Set current user level to 1 (admin)
+$sql = "UPDATE Users SET privilege_level = 1 WHERE username = 'imAWebDev'";
+$conn->query($sql);
 ?>

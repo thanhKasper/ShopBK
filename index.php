@@ -43,6 +43,26 @@
         </div>
     </nav>
 
+    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != -1): ?>
+        <?php // Retrieve the User tables with same password
+        $conn = new mysqli("localhost", "root", "", "onlinestore");
+
+        // Find tuple with user_id in session
+        $sql = sprintf("
+        SELECT username, privilege_level
+        FROM Users
+        WHERE user_id = %s", $_SESSION['user_id']);
+
+        $res = $conn->query($sql)->fetch_assoc();
+        $username = $res['username'];
+        $permissionLevel = $res['privilege_level'];
+        ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Welcome!</strong> You have logged in with username: <?php echo $username ?> and user level: <?php echo $permissionLevel ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <?php
     switch ($page) {
         case "home":
