@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <section class='hero py-5'>
     <div class="container-sm login-form rounded-2 p-4">
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == -1) : ?>

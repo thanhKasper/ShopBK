@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -18,43 +20,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-                <?php
-                if ($page == 'products') {
-                    echo '
-                    <div class="navbar-nav">
-                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
-                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=products">Products</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
-                    </div>';
-                } else if ($page == 'login') {
-                    echo '
-                    <div class="navbar-nav">
-                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
-                    <a class="nav-link" aria-current="page" href="http://localhost/index.php?page=products">Products</a>
-                    <a class="nav-link active" href="http://localhost/index.php?page=login">Login</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
-                    </div>';
-                } else if ($page == 'register') {
-                    echo '
-                    <div class="navbar-nav">
-                    <a class="nav-link"  href="http://localhost/index.php?page=home">Home</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
-                    <a class="nav-link active" href="http://localhost/index.php?page=register">Register</a>
-                    </div>';
-                }
-                else {
-                    echo '
-                    <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="http://localhost/index.php?page=home">Home</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=products">Products</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=login">Login</a>
-                    <a class="nav-link" href="http://localhost/index.php?page=register">Register</a>
-                    </div>';
-                } 
-                ?>
-                
+                <div class="navbar-nav">
+                    <a class="nav-link <?php if ($page == 'home' || $page == null) {
+                                            echo 'active';
+                                        } ?>" href="http://localhost/index.php?page=home">Home</a>
+                    <a class="nav-link <?php if ($page == 'products') {
+                                            echo 'active';
+                                        } ?>" aria-current="page" href="http://localhost/index.php?page=products">Products</a>
+
+                    <?php if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] == -1) : ?>
+                        <a class="nav-link <?php if ($page == 'login') {
+                                                echo 'active';
+                                            } ?>" href="http://localhost/index.php?page=login">Login</a>
+                        <a class="nav-link <?php if ($page == 'register') {
+                                                echo 'active';
+                                            } ?>" href="http://localhost/index.php?page=register">Register</a>
+                    <?php else : ?>
+                        <a class="nav-link" href="http://localhost/index.php?page=logout">Logout</a>
+                    <?php endif; ?>
+                </div>';
             </div>
         </div>
     </nav>
@@ -72,6 +56,9 @@
             break;
         case "register":
             include "./register.php";
+            break;
+        case "logout":
+            include "./controller/logout.php";
             break;
         default:
             $page = "home";
