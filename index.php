@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php session_start() ?>
 
 <!DOCTYPE html>
 <html>
@@ -57,7 +57,7 @@
         $username = $res['username'];
         $permissionLevel = $res['privilege_level'];
         ?>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Welcome!</strong> You have logged in with username: <?php echo $username ?> and user level: <?php echo $permissionLevel ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
