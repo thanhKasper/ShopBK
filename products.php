@@ -12,27 +12,34 @@ else {
 }
 ?>
 
+
 <section class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
-    <form class="input-group mb-3" action="./controller/findProduct.php" method="GET">
-        <input name="q" type="text" class="form-control" placeholder="Enter the product you want to find" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-primary" id="button-addon2">Search</button>
-    </form>
+    <div class="d-flex justify-content-between w-100">
+        <form class='search-bar w-50' action="./controller/findProduct.php" method="GET">
+            <div class='input-group'>
+                <input name='q' autocomplete="off" type='text' class='form-control' placeholder="Search Product">
+                <button class="btn btn-primary">Search</button>
+            </div>
+            <ul class="list-group position-absolute z-3"></ul>
+        </form>
+        <a class="btn btn-primary" href="http://localhost/index.php?page=addProduct" role='button'>Add Product</a>
+    </div>
     <div class="row mb-3">
-        <?php if ($res->num_rows): ?>
+        <?php if ($res->num_rows) : ?>
             <!-- There exist a product-->
             <?php while ($row = $res->fetch_assoc()) : ?>
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="card">
+                <div class="col-sm-12 col-md-6">
+                    <div class="card mb-4">
                         <div class="row">
-                            <div class="col-md-4 d-flex align-items-center">
-                                <img src="./model<?php echo $row['image_dir'] ?>" class="img-fluid" alt="product">
+                            <div class="col-lg-4 d-flex align-items-center justify-content-center">
+                                <img src="https://placehold.co/600x400" class="img-fluid" alt="product">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-lg-8">
                                 <div class="card-body">
                                     <h5 class="card-title fs-4"><?php echo $row['product_name'] ?></h5>
                                     <h6 class="card-subtitle"><?php echo $row['rating'] ?>⭐</h6>
                                     <p class="card-text mt-1 mb-1 fw-bold">Price: <?php echo $row['price'] ?>vnd</p>
-                                    <p class="card-text" style="max-height:100px;overflow:hidden;text-overflow:ellipsis;"><?php echo $row["description"] ?></p>
+                                    <p class="card-text product-description"><?php echo $row["description"] ?></p>
                                     <a href="#" class="btn btn-primary">More Detail</a>
                                 </div>
                             </div>
@@ -40,9 +47,53 @@ else {
                     </div>
                 </div>
             <?php endwhile; ?>
-        <?php else: ?>
-            <!-- Cannot find any product --> 
+        <?php else : ?>
+            <!-- Cannot find any product -->
             <h1>Sorry, We cannot find any products that you need!</h1>
         <?php endif; ?>
     </div>
 </section>
+
+<script>
+    const input = document.querySelector('input');
+    const recomList = document.querySelector('.list-group');
+
+
+    input.addEventListener('input', (e) => {
+        while (recomList.firstChild)
+            recomList.removeChild(recomList.lastChild);
+
+        const searchProduct = e.target.value
+
+        // Search data from database if there is value
+        if (searchProduct != "") {
+            const xhttp = new XMLHttpRequest()
+            xhttp.open('GET', `../controller/autocomplete_processing.php?q=${searchProduct}`)
+            xhttp.send()
+
+            let productRecom;
+            xhttp.onload = function() {
+                productRecom = this.responseText.split(';');
+                // while (recomList.firstChild)
+                //     recomList.removeChild(recomList.lastChild);
+                for (value of productRecom) {
+                    const opt = document.createElement('a');
+                    opt.innerHTML = value;
+                    opt.href = `http://localhost/index.php?page=products&q=${value}`;
+                    opt.classList.add('list-group-item');
+                    opt.classList.add('list-group-item-action');
+                    recomList.appendChild(opt)
+                }
+            }
+        }
+    })
+
+    document.addEventListener('click', (e) => {
+        const focusOnInput = input.contains(e.target)
+        const focusOnRecommendation = recomList.contains(e.target)
+        if (!focusOnInput && !focusOnRecommendation) {
+            while (recomList.firstChild)
+                recomList.removeChild(recomList.lastChild);
+        }
+    })
+</script>

@@ -44,13 +44,15 @@ if ($conn->multi_query($queryProducts) === TRUE) {
     echo "Insert two more products";
 }
 
-$userEmail = 'myemail@mail.com';
-$userPassword = '123456';
-$userName = 'imAWebDev';
+$userEmail = 'kieutienthanh@email.com';
+$userPassword = '12345678';
+$userName = 'ThanhKieu';
 $hashPass = hash("sha256", $userPassword);
 
-$sql = "insert into Users
-values(1, '" . $userName . "', '" . $userEmail . "', '" . $hashPass . "')";
+$sql = "
+INSERT INTO Users
+VALUES (1, '$userName', '$userEmail', '$hashPass', 1)
+";
 if ($conn->query($sql) === TRUE) {
     echo "Successfully add user info";
 } else {
