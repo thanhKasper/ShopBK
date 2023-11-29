@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="./styles/login.css">
     <link rel="stylesheet" href="./styles/home.css" />
     <link rel="stylesheet" href="./styles/product.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="./pagination.js"></script>
 </head>
 
-<body class="d-flex flex-column" style="height:100vh;">
+<body>
     <?php $page = $_GET['page'] ?? null; ?>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid mx-3">

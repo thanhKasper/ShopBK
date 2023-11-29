@@ -12,7 +12,6 @@ else {
 }
 ?>
 
-
 <section class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
     <div class="d-flex justify-content-between w-100">
         <form class='search-bar w-50' action="./controller/findProduct.php" method="GET">
@@ -22,10 +21,13 @@ else {
             </div>
             <ul class="list-group position-absolute z-3"></ul>
         </form>
-        <?php if (isset($_SESSION["user_id"]) && $_SESSION['user_id'] == 1): ?>
-        <a class="btn btn-primary" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
+        <?php if (isset($_SESSION["user_id"]) && $_SESSION['user_id'] == 1) : ?>
+            <a class="btn btn-primary" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
         <?php endif; ?>
     </div>
+    <nav id="pagination" aria-label="product pagination">
+        <ul class="pagination"></ul>
+    </nav>
     <div class="row mb-3">
         <?php if ($res->num_rows) : ?>
             <!-- There exist a product-->
@@ -49,12 +51,15 @@ else {
                     </div>
                 </div>
             <?php endwhile; ?>
+
         <?php else : ?>
             <!-- Cannot find any product -->
             <h1>Sorry, We cannot find any products that you need!</h1>
         <?php endif; ?>
     </div>
 </section>
+
+
 
 <script>
     const input = document.querySelector('input');
