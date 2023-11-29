@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./styles/product.css">
 </head>
 
-<body>
+<body class="d-flex flex-column" style="height:100vh;">
     <?php $page = $_GET['page'] ?? null; ?>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid mx-3">
@@ -58,10 +58,6 @@
         $username = $res['username'];
         $permissionLevel = $res['privilege_level'];
         ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Welcome!</strong> You have logged in with username: <?php echo $username ?> and user level: <?php echo $permissionLevel ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
     <?php endif; ?>
 
     <?php
@@ -80,6 +76,9 @@
             break;
         case "logout":
             include "./controller/logout.php";
+            break;
+        case "add_product":
+            include "./add_product.php";
             break;
         default:
             $page = "home";

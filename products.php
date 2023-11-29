@@ -22,7 +22,9 @@ else {
             </div>
             <ul class="list-group position-absolute z-3"></ul>
         </form>
-        <a class="btn btn-primary" href="http://localhost/index.php?page=addProduct" role='button'>Add Product</a>
+        <?php if (isset($_SESSION["user_id"]) && $_SESSION['user_id'] == 1): ?>
+        <a class="btn btn-primary" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
+        <?php endif; ?>
     </div>
     <div class="row mb-3">
         <?php if ($res->num_rows) : ?>
