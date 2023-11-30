@@ -1,9 +1,10 @@
 <?php
 
-function findProduct($product) {
+function findProduct($product)
+{
     $conn = new mysqli("localhost", "root", "", "onlinestore");
     $sql = "
-        SELECT product_name, description, price, rating, image_dir
+        SELECT *
         FROM Products
         WHERE product_name LIKE '%$product%';
     ";
@@ -11,4 +12,3 @@ function findProduct($product) {
     return $res;
 }
 
-?>

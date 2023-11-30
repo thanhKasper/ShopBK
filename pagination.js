@@ -1,6 +1,6 @@
 function fetchProductOnPage(res) {
     const parent = document.querySelector(".row.mb-3")
-
+    console.log(res)
     for (let product of res) {
         const div1 = document.createElement("div")
         div1.className = "col-sm-12 col-lg-6"
@@ -56,6 +56,7 @@ function fetchProductOnPage(res) {
         card.append(p2)
         //<a href="#" class="btn btn-primary">More Detail</a>
         const link = document.createElement("a")
+        link.href = `http://localhost/index.php?page=products&product_id=${product.product_id}`
         link.className = "btn btn-primary"
         link.innerHTML = "More Detail"
         card.append(link)

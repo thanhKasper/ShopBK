@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="./styles/home.css" />
     <link rel="stylesheet" href="./styles/product.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="./pagination.js"></script>
 </head>
 
 <body>
@@ -68,7 +67,11 @@
             include "./home.php";
             break;
         case "products":
-            include "./products.php";
+            if (isset($_GET['product_id'])) {
+                include "./product_detail.php";
+            } else {
+                include "./products.php";
+            }
             break;
         case "login":
             include "./login.php";

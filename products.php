@@ -2,7 +2,7 @@
 include "./model/queryProduct.php";
 $conn = new mysqli("localhost", "root", "", "onlinestore");
 # if there exist q params in the GET request
-if (isset($_GET['q'])) {
+if (isset($_GET['q']) && $_GET['q'] != '') {
     $findingProduct = $_GET['q'];
     $res = findProduct(strtoupper($findingProduct));
 }
@@ -11,7 +11,7 @@ else {
     $res = null;
 }
 ?>
-
+<script src="./pagination.js"></script>
 <section id="product-list" class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
     <div class="d-flex justify-content-between w-100">
         <form class='search-bar w-50' action="./controller/findProduct.php" method="GET">
@@ -46,7 +46,7 @@ else {
                                     <h6 class="card-subtitle"><?php echo $row['rating'] ?>⭐</h6>
                                     <p class="card-text mt-1 mb-1 fw-bold">Price: <?php echo $row['price'] ?>vnd</p>
                                     <p class="card-text product-description"><?php echo $row["description"] ?></p>
-                                    <a href="#" class="btn btn-primary">More Detail</a>
+                                    <a href=<?php echo "http://localhost/index.php?page=products&product_id=" . $row['product_id']; ?> class="btn btn-primary">More Detail</a>
                                 </div>
                             </div>
                         </div>
