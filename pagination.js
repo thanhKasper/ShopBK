@@ -160,7 +160,6 @@ $(document).ready(function () {
             // Load the database with appropriate limit
             $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
                 const res = JSON.parse(data).list
-                console.log(res)
                 const h1 = document.querySelector("h1")
                 h1 != null && h1.remove()
                 const removeEle = document.querySelector(".row.mb-3")
@@ -179,7 +178,6 @@ $(document).ready(function () {
             // Load the database with appropriate limit
             $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
                 const res = JSON.parse(data).list
-                console.log(res)
                 const h1 = document.querySelector("h1")
                 h1 != null && h1.remove()
                 const removeEle = document.querySelector(".row.mb-3")
@@ -197,7 +195,6 @@ $(document).ready(function () {
             // Load the database with appropriate limit
             $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
                 const res = JSON.parse(data).list
-                console.log(res)
                 const h1 = document.querySelector("h1")
                 h1 != null && h1.remove()
                 const removeEle = document.querySelector(".row.mb-3")
