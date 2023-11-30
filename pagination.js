@@ -140,7 +140,7 @@ $(document).ready(function () {
             $(".page-link").eq(currentPage).addClass("z-0")
             // Load the database on first come to page
             $.get("./controller/paginationController.php?action=2&page=1", function (data, status) {
-                const res = JSON.parse(data).listcl
+                const res = JSON.parse(data).list
                 const h1 = document.querySelector("h1")
                 h1 != null && h1.remove()
                 fetchProductOnPage(res)
