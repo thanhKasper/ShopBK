@@ -8,11 +8,11 @@ if (isset($_GET['q'])) {
 }
 # if there doesn't exist q params then list out all products in the database
 else {
-    $res = findProduct("");
+    $res = null;
 }
 ?>
 
-<section class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
+<section id="product-list" class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
     <div class="d-flex justify-content-between w-100">
         <form class='search-bar w-50' action="./controller/findProduct.php" method="GET">
             <div class='input-group'>
@@ -25,14 +25,16 @@ else {
             <a class="btn btn-primary" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
         <?php endif; ?>
     </div>
-    <nav id="pagination" aria-label="product pagination">
-        <ul class="pagination"></ul>
+    <nav id="pagination" aria-label="product pagination" style="z-index: 0;">
+        <ul class=" pagination">
+        </ul>
     </nav>
     <div class="row mb-3">
-        <?php if ($res->num_rows) : ?>
+        <?php  ?>
+        <?php if ($res != null && $res->num_rows) : ?>
             <!-- There exist a product-->
             <?php while ($row = $res->fetch_assoc()) : ?>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="card mb-4">
                         <div class="row">
                             <div class="col-lg-4 d-flex align-items-center justify-content-center">
