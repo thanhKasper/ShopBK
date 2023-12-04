@@ -5,12 +5,8 @@ user1 user1@email.com 246810
 user2 user2@email.com 112358
 -->
 
-<section id="register" style="margin-top: auto; margin-bottom: auto;">
-    <form action="/controller/addAccount.php" method="POST" class="d-flex flex-column w-50 p-5 mt-5 border mx-auto my-auto bg-body-secondary rounded-3">
-        <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            Your password and retype password are not the same, please check again
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> -->
+<section id="register" class="pt-5 ">
+    <form action="/controller/addAccount.php" method="POST" class="w-50 mx-auto d-flex flex-column p-sm-3 p-md-5 border bg-body-secondary rounded-3">
         <h1 class="text-center">Create Your New Account</h1>
         <div class="row">
             <div class="col-md-12 col-lg-4">
@@ -52,7 +48,7 @@ user2 user2@email.com 112358
             btn.className = 'btn-close'
             btn.setAttribute('data-bs-dismiss', 'alert')
             alertEle.appendChild(btn)
-        } else{
+        } else {
             const xhttp = new XMLHttpRequest()
             xhttp.open('POST', './controller/addAccount.php')
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

@@ -1,6 +1,5 @@
 function fetchProductOnPage(res) {
     const parent = document.querySelector(".row.mb-3")
-    console.log(res)
     for (let product of res) {
         const div1 = document.createElement("div")
         div1.className = "col-sm-12 col-lg-6"
@@ -211,4 +210,6 @@ $(document).ready(function () {
     })
 
 })
+
+
 

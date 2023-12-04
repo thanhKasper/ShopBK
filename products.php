@@ -12,9 +12,9 @@ else {
 }
 ?>
 <script src="./pagination.js"></script>
-<section id="product-list" class="container-fluid d-flex flex-row gap-3 pt-2 px-5 flex-wrap">
-    <div class="d-flex justify-content-between w-100">
-        <form class='search-bar w-50' action="./controller/findProduct.php" method="GET">
+<section id="product-list" class="container-fluid d-flex flex-column pt-2 px-5">
+    <div class="d-flex flex-sm-column flex-md-row justify-content-between w-100">
+        <form class='search-bar w-75' action="./controller/findProduct.php" method="GET">
             <div class='input-group'>
                 <input name='q' autocomplete="off" type='text' class='form-control' placeholder="Search Product">
                 <button class="btn btn-primary">Search</button>
@@ -22,14 +22,14 @@ else {
             <ul class="list-group position-absolute z-3"></ul>
         </form>
         <?php if (isset($_SESSION["user_id"]) && $_SESSION['user_id'] == 1) : ?>
-            <a class="btn btn-primary" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
+            <a class="btn btn-primary mt-sm-3 mt-md-0" style="width:fit-content;" href="http://localhost/index.php?page=add_product" role='button'>Add Product</a>
         <?php endif; ?>
     </div>
-    <nav id="pagination" aria-label="product pagination" style="z-index: 0;">
+    <nav class="mt-3" id="pagination" aria-label="product pagination" style="z-index: 0;">
         <ul class=" pagination">
         </ul>
     </nav>
-    <div class="row mb-3">
+    <div id="show-products" class="row mb-3">
         <?php  ?>
         <?php if ($res != null && $res->num_rows) : ?>
             <!-- There exist a product-->
