@@ -7,21 +7,20 @@ if ($conn->connect_error) {
 $userInp = $_GET['q'];
 
 $sql = "
-SELECT product_name
+SELECT product_name, product_id
 FROM Products
 WHERE product_name LIKE '%$userInp%'
 ORDER BY product_name
 ";
 
 $ans = "";
-
+$data = ["result" => []];
 $res = $conn->query($sql);
-$res = $res->fetch_all();
-foreach ($res as $ele) {
-    foreach ($ele as $data) {
-        $ans = $ans . $data . ";";
+if ($res->num_rows) {
+    while ($row = $res->fetch_assoc()) {
+        array_push($data["result"], ["product_id" => $row["product_id"], "product_name" => $row["product_name"]]);
     }
 }
-$ans = substr_replace($ans, "", -1); // Remove the last ';' character
-echo $ans;
+
+echo json_encode($data);
 ?>

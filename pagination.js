@@ -64,152 +64,166 @@ function fetchProductOnPage(res) {
 
 // Pagination when there is no search query
 $(document).ready(function () {
-    let currentPage = 1;
+    const searchParams = new URLSearchParams(window.location.search)
+    if (searchParams.has("q")) {
+        console.log("exist q query string")
+    }
+    else {
+        let currentPage = 1;
 
-    let productNum;
-    // One page will have 6 products
-    const PRODUCT_PER_PAGE = 6;
-    let NUMBER_OF_PAGE;
+        let productNum;
+        // One page will have 6 products
+        const PRODUCT_PER_PAGE = 6;
+        let NUMBER_OF_PAGE;
 
 
-    /*
-    action = 1: get the number of pages
-    action = 2: get the limited number of products
-     */
+        /*
+        action = 1: get the number of pages
+        action = 2: get the limited number of products
+         */
 
 
-    const xhttp = new XMLHttpRequest()
-    xhttp.open("GET", "./controller/paginationController.php?action=1")
-    xhttp.send()
-    xhttp.onload = function () {
-        productNum = parseInt(this.responseText)
-        NUMBER_OF_PAGE = Math.ceil(productNum / PRODUCT_PER_PAGE)
-        $(".pagination").ready(function () {
-            // Create previous link
-            const prevPage = document.createElement('li')
-            $(prevPage).addClass("page-item")
-            $(prevPage).addClass("z-0")
+        const xhttp = new XMLHttpRequest()
+        xhttp.open("GET", "./controller/paginationController.php?action=1")
+        xhttp.send()
+        xhttp.onload = function () {
+            productNum = parseInt(this.responseText)
+            NUMBER_OF_PAGE = Math.ceil(productNum / PRODUCT_PER_PAGE)
+            $(".pagination").ready(function () {
+                // Create previous link
+                const prevPage = document.createElement('li')
+                $(prevPage).addClass("page-item")
+                $(prevPage).addClass("z-0")
 
-            const linkPage = document.createElement("p")
-            $(linkPage).text("Previous")
-            $(linkPage).css(
-                {
-                    "cursor": "default",
-                    "user-select": "none"
+                const linkPage = document.createElement("p")
+                $(linkPage).text("Previous")
+                $(linkPage).css(
+                    {
+                        "cursor": "default",
+                        "user-select": "none"
+                    }
+                )
+                $(linkPage).addClass('page-link')
+                $(linkPage).addClass('z-0')
+                $(prevPage).append(linkPage)
+                $(".pagination").append(prevPage)
+
+                // Create number link
+                for (let i = 1; i <= NUMBER_OF_PAGE; ++i) {
+                    const page = document.createElement('li')
+                    $(page).addClass("page-item")
+                    $(page).addClass("z-0")
+
+                    const numPage = document.createElement("p")
+                    $(numPage).text(i)
+                    $(numPage).css("cursor", "default")
+                    $(numPage).addClass('page-link')
+                    $(numPage).addClass('z-0')
+                    $(page).append(numPage)
+                    $(".pagination").append(page)
                 }
-            )
-            $(linkPage).addClass('page-link')
-            $(linkPage).addClass('z-0')
-            $(prevPage).append(linkPage)
-            $(".pagination").append(prevPage)
 
-            // Create number link
-            for (let i = 1; i <= NUMBER_OF_PAGE; ++i) {
-                const page = document.createElement('li')
-                $(page).addClass("page-item")
-                $(page).addClass("z-0")
+                // Create Next link
+                const nextPage = document.createElement('li')
+                $(nextPage).addClass("page-item")
 
-                const numPage = document.createElement("p")
-                $(numPage).text(i)
-                $(numPage).css("cursor", "default")
-                $(numPage).addClass('page-link')
-                $(numPage).addClass('z-0')
-                $(page).append(numPage)
-                $(".pagination").append(page)
+                const lastPage = document.createElement("p")
+                $(lastPage).text("Next")
+                $(lastPage).css(
+                    {
+                        "cursor": "default",
+                        "user-select": "none"
+                    }
+                )
+                $(lastPage).addClass('page-link')
+                $(nextPage).append(lastPage)
+                $(".pagination").append(nextPage)
+
+                // On first load set the first page active
+                // Put in here because of asynchronous
+                $(".page-link").eq(currentPage).addClass("active")
+                $(".page-link").eq(currentPage).addClass("z-0")
+                // Load the database on first come to page
+                $.get("./controller/paginationController.php?action=2&page=1", function (data, status) {
+                    const res = JSON.parse(data).list
+                    const h1 = document.querySelector("h1")
+                    const goBackLink = document.querySelector("#go-back-link")
+                    goBackLink != null && goBackLink.remove()
+                    h1 != null && h1.remove()
+                    fetchProductOnPage(res)
+                })
+            })
+        }
+
+
+
+        // Set active of current page
+        $(".pagination").click(function (e) {
+            // Set active if user click the previous button
+            $(".page-link").removeClass("active")
+            if (e.target.innerHTML == "Previous") {
+                if (currentPage != 1) --currentPage;
+                $(".page-link").eq(currentPage).addClass("active")
+                // Load the database with appropriate limit
+                $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
+                    const res = JSON.parse(data).list
+                    const h1 = document.querySelector("h1")
+                    h1 != null && h1.remove()
+                    const removeEle = document.querySelector(".row.mb-3")
+                    const parent = removeEle.parentElement;
+                    removeEle.remove()
+                    const newContainer = document.createElement('div')
+                    newContainer.className = "row mb-3"
+                    parent.append(newContainer)
+                    fetchProductOnPage(res)
+                })
+            }
+            // Set active if user click the next button
+            else if (e.target.innerHTML == "Next") {
+                if (currentPage != NUMBER_OF_PAGE) ++currentPage;
+                $(".page-link").eq(currentPage).addClass("active")
+                // Load the database with appropriate limit
+                $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
+                    const res = JSON.parse(data).list
+                    const h1 = document.querySelector("h1")
+                    h1 != null && h1.remove()
+                    const removeEle = document.querySelector(".row.mb-3")
+                    const parent = removeEle.parentElement;
+                    removeEle.remove()
+                    const newContainer = document.createElement('div')
+                    newContainer.className = "row mb-3"
+                    parent.append(newContainer)
+                    fetchProductOnPage(res)
+                })
+            }
+            else {
+                $(e.target).addClass('active')
+                currentPage = e.target.innerHTML
+                // Load the database with appropriate limit
+                $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
+                    const res = JSON.parse(data).list
+                    const h1 = document.querySelector("h1")
+                    h1 != null && h1.remove()
+                    const removeEle = document.querySelector(".row.mb-3")
+                    const parent = removeEle.parentElement;
+                    removeEle.remove()
+                    const newContainer = document.createElement('div')
+                    newContainer.className = "row mb-3"
+                    parent.append(newContainer)
+                    fetchProductOnPage(res)
+                })
             }
 
-            // Create Next link
-            const nextPage = document.createElement('li')
-            $(nextPage).addClass("page-item")
-
-            const lastPage = document.createElement("p")
-            $(lastPage).text("Next")
-            $(lastPage).css(
-                {
-                    "cursor": "default",
-                    "user-select": "none"
-                }
-            )
-            $(lastPage).addClass('page-link')
-            $(nextPage).append(lastPage)
-            $(".pagination").append(nextPage)
-
-            // On first load set the first page active
-            // Put in here because of asynchronous
-            $(".page-link").eq(currentPage).addClass("active")
-            $(".page-link").eq(currentPage).addClass("z-0")
-            // Load the database on first come to page
-            $.get("./controller/paginationController.php?action=2&page=1", function (data, status) {
-                const res = JSON.parse(data).list
-                const h1 = document.querySelector("h1")
-                h1 != null && h1.remove()
-                fetchProductOnPage(res)
-            })
         })
     }
-
-
-
-    // Set active of current page
-    $(".pagination").click(function (e) {
-        // Set active if user click the previous button
-        $(".page-link").removeClass("active")
-        if (e.target.innerHTML == "Previous") {
-            if (currentPage != 1) --currentPage;
-            $(".page-link").eq(currentPage).addClass("active")
-            // Load the database with appropriate limit
-            $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
-                const res = JSON.parse(data).list
-                const h1 = document.querySelector("h1")
-                h1 != null && h1.remove()
-                const removeEle = document.querySelector(".row.mb-3")
-                const parent = removeEle.parentElement;
-                removeEle.remove()
-                const newContainer = document.createElement('div')
-                newContainer.className = "row mb-3"
-                parent.append(newContainer)
-                fetchProductOnPage(res)
-            })
-        }
-        // Set active if user click the next button
-        else if (e.target.innerHTML == "Next") {
-            if (currentPage != NUMBER_OF_PAGE) ++currentPage;
-            $(".page-link").eq(currentPage).addClass("active")
-            // Load the database with appropriate limit
-            $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
-                const res = JSON.parse(data).list
-                const h1 = document.querySelector("h1")
-                h1 != null && h1.remove()
-                const removeEle = document.querySelector(".row.mb-3")
-                const parent = removeEle.parentElement;
-                removeEle.remove()
-                const newContainer = document.createElement('div')
-                newContainer.className = "row mb-3"
-                parent.append(newContainer)
-                fetchProductOnPage(res)
-            })
-        }
-        else {
-            $(e.target).addClass('active')
-            currentPage = e.target.innerHTML
-            // Load the database with appropriate limit
-            $.get(`./controller/paginationController.php?action=2&page=${currentPage}`, function (data, status) {
-                const res = JSON.parse(data).list
-                const h1 = document.querySelector("h1")
-                h1 != null && h1.remove()
-                const removeEle = document.querySelector(".row.mb-3")
-                const parent = removeEle.parentElement;
-                removeEle.remove()
-                const newContainer = document.createElement('div')
-                newContainer.className = "row mb-3"
-                parent.append(newContainer)
-                fetchProductOnPage(res)
-            })
-        }
-
-    })
-
 })
+
+
+// const searchBar = document.querySelector("form")
+// searchBar.addEventListener('submit', function (e) {
+//     e.preventDefault()
+//     console.log(e.target)
+// })
 
 
 

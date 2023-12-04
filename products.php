@@ -11,7 +11,8 @@ else {
     $res = null;
 }
 ?>
-<script src="./pagination.js"></script>
+
+<!-- ./controller/findProduct.php -->
 <section id="product-list" class="container-fluid d-flex flex-column pt-2 px-5">
     <div class="d-flex flex-sm-column flex-md-row justify-content-between w-100">
         <form class='search-bar w-75' action="./controller/findProduct.php" method="GET">
@@ -53,16 +54,18 @@ else {
                     </div>
                 </div>
             <?php endwhile; ?>
+            <a id="go-back-link" href="http://localhost/index.php?page=products">Go Back</a>
 
         <?php else : ?>
             <!-- Cannot find any product -->
             <h1>Sorry, We cannot find any products that you need!</h1>
+            <a id="go-back-link" href="http://localhost/index.php?page=products">Go Back</a>
         <?php endif; ?>
     </div>
 </section>
 
 
-
+<script src="./pagination.js"></script>
 <script>
     const input = document.querySelector('input');
     const recomList = document.querySelector('.list-group');
@@ -82,13 +85,13 @@ else {
 
             let productRecom;
             xhttp.onload = function() {
-                productRecom = this.responseText.split(';');
-                // while (recomList.firstChild)
-                //     recomList.removeChild(recomList.lastChild);
+                productRecom = JSON.parse(this.responseText).result;
+                while (recomList.firstChild)
+                    recomList.removeChild(recomList.lastChild);
                 for (value of productRecom) {
                     const opt = document.createElement('a');
-                    opt.innerHTML = value;
-                    opt.href = `http://localhost/index.php?page=products&q=${value}`;
+                    opt.innerHTML = value.product_name;
+                    opt.href = `http://localhost/index.php?page=products&product_id=${value.product_id}`;
                     opt.classList.add('list-group-item');
                     opt.classList.add('list-group-item-action');
                     recomList.appendChild(opt)
